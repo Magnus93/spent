@@ -1,5 +1,5 @@
-import { app } from "app";
+import { app } from "app"
 
-app.get("/health", (context) => {
-    return context.json({ status: "ok" })
+app.get("/health", context => {
+	return context.json({ status: "ok" })
 })

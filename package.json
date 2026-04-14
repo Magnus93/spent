@@ -1,27 +1,36 @@
 {
-    "name": "spent",
-    "version": "0.0.1",
-    "author": "Magnus93",
-    "license": "UNLICENSED",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Magnus93/spent"
-    },
-    "main": "dist/_worker.js",
+	"name": "spent",
+	"version": "0.0.1",
+	"author": "Magnus93",
+	"license": "UNLICENSED",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Magnus93/spent"
+	},
+	"main": "dist/_worker.js",
 	"typings": "dist/index.d.ts",
-    "git": {
+	"git": {
 		"tagName": "v${version}"
 	},
-    "scripts": {
+	"scripts": {
 		"lint": "eslint --max-warnings=0 '**/*.{ts,tsx}'",
 		"fix": "eslint '**/*.{ts,tsx}' --fix",
 		"test": "vitest --run",
-        "types": "wrangler types --env-interface=Environment --env=local",
+		"types": "wrangler types --env-interface=Environment --env=local",
 		"build": "wrangler deploy --env= --dry-run --outdir=dist && mv dist/index.js dist/_worker.js",
 		"start": "wrangler dev --live-reload --env local --inspector-port 9229",
 		"clean": "rm -rf dist node_modules coverage"
 	},
-    "devDependencies": {
+	"devDependencies": {
+		"@eslint/eslintrc": "^3.3.5",
+		"@eslint/js": "^10.0.1",
+		"@typescript-eslint/eslint-plugin": "8.58.1",
+		"@typescript-eslint/parser": "8.58.1",
+		"eslint": "^10.2.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-prettier": "^5.5.5",
+		"eslint-plugin-simple-import-sort": "^13.0.0",
+		"prettier": "3.8.1",
 		"tslib": "2.8.1",
 		"typescript": "6.0.2",
 		"vitest": "4.1.4",

@@ -1,0 +1,47 @@
+{
+	"files.exclude": {
+		".*": true,
+		"*.sh": true,
+		"*.json": false,
+		"package-lock.json": true,
+		".dev.vars": false,
+		"CODEOWNERS": true,
+		"dist": true,
+		"README.md": true,
+		"LICENSE": true,
+		"tsconfig.*": true,
+		"node_modules": true,
+		"*.code-workspace": true,
+		"*.config.ts": true,
+		"*.config.js": true,
+		"coverage": true,
+		"*.toml": true
+	},
+	"search.exclude": {
+		".*": false,
+		"*.sh": false,
+		"*.json": false,
+		"CODEOWNERS": false,
+		"dist": false,
+		"README.md": false,
+		"LICENSE": false,
+		"tsconfig.*": false,
+		"node_modules": false,
+		"*.code-workspace": false,
+		"*.config.ts": false,
+		"coverage": false,
+		"*.toml": false
+	},
+	"files.insertFinalNewline": true,
+	"editor.tabSize": 2,
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"eslint.autoFixOnSave": "explicit"
+	},
+	"js/ts.format.enabled": false,
+	"js/ts.tsdk.path": "node_modules/typescript/lib"
+}
