@@ -1,0 +1,9 @@
+dist
+node_modules
+.env
+.npmrc
+.wrangler
+.dev.vars
+_LOCAL/drizzle
+coverage/
+.vscode/
