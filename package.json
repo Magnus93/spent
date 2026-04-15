@@ -23,7 +23,8 @@
 		"db_start": "_scripts/db_start.sh",
 		"db_stop": "_scripts/db_stop.sh",
 		"db:migrate": "drizzle-kit migrate",
-		"db:generate": "drizzle-kit generate"
+		"db:generate": "drizzle-kit generate",
+		"db:seed": "tsx _scripts/seed.ts"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.5",
