@@ -7,6 +7,13 @@
 	},
 	"env": {
 		"local": {
+			"hyperdrive": [
+				{
+					"binding": "hyperdrive",
+					"id": "",
+					"localConnectionString": "postgresql://postgres:password@localhost:5432/postgres"
+				}
+			],
 			"vars": {
 				"system": "local",
 				"adminSecret": "adminSecret",

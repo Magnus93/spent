@@ -1,5 +1,5 @@
+import { core } from "core"
 import { Repository } from "Repository"
-import { core } from "../core"
 
 export class Account {
 	constructor(private readonly repository: Repository) {}

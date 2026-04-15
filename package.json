@@ -19,13 +19,19 @@
 		"types": "wrangler types --env-interface=Environment --env=local",
 		"build": "wrangler deploy --env= --dry-run --outdir=dist && mv dist/index.js dist/_worker.js",
 		"start": "wrangler dev --live-reload --env local --inspector-port 9229",
-		"clean": "rm -rf dist node_modules coverage"
+		"clean": "rm -rf dist node_modules coverage",
+		"db_start": "_scripts/db_start.sh",
+		"db_stop": "_scripts/db_stop.sh",
+		"db:migrate": "drizzle-kit migrate",
+		"db:generate": "drizzle-kit generate"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.5",
 		"@eslint/js": "^10.0.1",
 		"@typescript-eslint/eslint-plugin": "8.58.1",
 		"@typescript-eslint/parser": "8.58.1",
+		"dotenv": "^17.4.2",
+		"drizzle-kit": "0.31.10",
 		"eslint": "^10.2.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.5",
@@ -38,6 +44,8 @@
 	},
 	"dependencies": {
 		"@types/node": "25.6.0",
-		"hono": "4.12.12"
+		"drizzle-orm": "0.45.2",
+		"hono": "4.12.12",
+		"postgres": "3.4.9"
 	}
 }

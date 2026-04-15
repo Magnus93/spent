@@ -9,12 +9,18 @@ export interface Env {
 
 export namespace Env {
 	export interface Variables {
+		repository: Repository
 		service: Service
 	}
 }
 
 export const app = new Hono<Env>().use("*", async (c, next) => {
-	c.set("service", new Service(new Repository(), "local"))
+	const repository = new Repository(c.env.hyperdrive)
+	c.set("repository", repository)
+
+	const service = new Service(repository, "local")
+	c.set("service", service)
+
 	await next()
 })
 export namespace app {
