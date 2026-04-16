@@ -1,5 +1,5 @@
 import { DB } from "./DB"
 
-export class Account {
+export class Import {
 	constructor(private readonly db: DB) {}
 }

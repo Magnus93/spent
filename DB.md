@@ -1,7 +1,7 @@
 # DB tables
 
 ## imports
-- import_id
+- id
 - imported_at
 
 ## accounts
