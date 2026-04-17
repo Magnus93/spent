@@ -14,7 +14,7 @@
 				{
 					"binding": "hyperdrive",
 					"id": "",
-					"localConnectionString": "postgresql://postgres:password@localhost:5432/postgres"
+					"localConnectionString": "postgres://spent_app:Soodee5O@localhost:5432/spent"
 				}
 			],
 			"vars": {
