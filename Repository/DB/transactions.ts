@@ -5,7 +5,7 @@ import { imports } from "./imports"
 export const transactions = pgTable(
 	"transactions",
 	{
-		id: bigserial("id", { mode: "bigint" }).primaryKey(),
+		id: bigserial("id", { mode: "number" }).primaryKey(),
 		account_id: bigint("account_id", { mode: "bigint" })
 			.notNull()
 			.references(() => accounts.id),

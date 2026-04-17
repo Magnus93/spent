@@ -1,5 +1,5 @@
 export interface Account extends Account.Create {
-	id: string
+	id: number
 }
 export namespace Account {
 	export const dummy = null

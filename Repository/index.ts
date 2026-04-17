@@ -8,6 +8,7 @@ export class Repository {
 	public readonly account: Account
 
 	constructor(hyperdrive: Hyperdrive) {
+		console.log("connectionString", hyperdrive.connectionString)
 		const sql = postgres(hyperdrive.connectionString, {
 			ssl: false,
 			max: 5,
