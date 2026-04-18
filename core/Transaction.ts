@@ -1,11 +1,11 @@
 import { createHash } from "crypto"
 
 export interface Transaction {
-	id: string
-	accountId: string
-	// fingerprint: string
+	id: number
+	accountId: number
+	fingerprint: string
 	date: Date
-	batchId: string
+	batchId: number
 	orderInBatch: number
 	type: Transaction.Type
 	amount: number
@@ -19,7 +19,7 @@ export interface Transaction {
 export namespace Transaction {
 	export interface Create {
 		date: Date
-		batchId: string
+		batchId: number
 		orderInBatch: number
 		type: Type
 		amount: number
@@ -31,7 +31,7 @@ export namespace Transaction {
 	}
 	export type Type = "deposit" | "transfer" | "card_transaction" | "misc"
 	export namespace Fingerprint {
-		export function create({ accountId, date, amount, description, balance, currency }: Transaction) {
+		export function create(accountId: number, { date, amount, description, balance, currency }: Transaction.Create) {
 			const normalizedDescription = description
 				.toLowerCase()
 				.trim()

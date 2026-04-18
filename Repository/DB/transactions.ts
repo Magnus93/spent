@@ -1,11 +1,11 @@
-import { bigint, bigserial, integer, jsonb, numeric, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core"
+import { bigint, bigserial, date, integer, jsonb, numeric, pgTable, text, uniqueIndex } from "drizzle-orm/pg-core"
 import { accounts } from "./accounts"
 import { batches } from "./batches"
 
 export const transactions = pgTable(
 	"transactions",
 	{
-		id: bigserial("id", { mode: "number" }).primaryKey(),
+		id: bigserial("id", { mode: "number" }).primaryKey().notNull(),
 		account_id: bigint("account_id", { mode: "number" })
 			.notNull()
 			.references(() => accounts.id),
@@ -20,7 +20,7 @@ export const transactions = pgTable(
 		currency: text("currency"),
 		description: text("description").notNull(),
 		reference: text("reference"),
-		date: timestamp("date", { mode: "date" }).notNull(),
+		date: date("date", { mode: "date" }).notNull(),
 		raw_payload: jsonb("raw_payload").notNull(),
 	},
 	table => ({
