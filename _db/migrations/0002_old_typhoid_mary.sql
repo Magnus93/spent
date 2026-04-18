@@ -1,0 +1,2 @@
+ALTER TABLE "batches" ADD COLUMN "account_id" bigserial NOT NULL;--> statement-breakpoint
+ALTER TABLE "batches" ADD CONSTRAINT "batches_account_id_accounts_id_fk" FOREIGN KEY ("account_id") REFERENCES "public"."accounts"("id") ON DELETE no action ON UPDATE no action;
