@@ -1,15 +1,15 @@
 import { drizzle } from "drizzle-orm/postgres-js"
 import postgres from "postgres"
-import { Account } from "./Account"
-import { Batch } from "./Batch"
+import { Account as DBAccount } from "./Account"
+import { Batch as DBBatch } from "./Batch"
 import { DB as RepositoryDB } from "./DB"
-import { Transaction } from "./Transaction"
+import { Transaction as DBTransaction } from "./Transaction"
 
 export class Repository {
 	public db: RepositoryDB
-	public readonly account: Account
-	public readonly batch: Batch
-	public readonly transaction: Transaction
+	public readonly account: DBAccount
+	public readonly batch: DBBatch
+	public readonly transaction: DBTransaction
 
 	constructor(hyperdrive: Hyperdrive) {
 		console.log("connectionString", hyperdrive.connectionString)
@@ -22,12 +22,15 @@ export class Repository {
 			transform: { undefined: null },
 		})
 		this.db = drizzle(sql, { schema: RepositoryDB.schema })
-		this.account = new Account(this.db)
-		this.batch = new Batch(this.db)
-		this.transaction = new Transaction(this.db)
+		this.account = new DBAccount(this.db)
+		this.batch = new DBBatch(this.db)
+		this.transaction = new DBTransaction(this.db)
 	}
 }
 
 export namespace Repository {
 	export type DB = RepositoryDB
+	export import Account = DBAccount
+	export import Batch = DBBatch
+	export import Transaction = DBTransaction
 }

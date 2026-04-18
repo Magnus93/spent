@@ -5,12 +5,24 @@ import { DB } from "./DB"
 export class Transaction {
 	constructor(private readonly db: DB) {}
 
+	async list(options?: { tx?: DB; filter?: Transaction.Filter }): Promise<core.Transaction[]> {
+		const db = options?.tx ?? this.db
+		const rows = await db
+			.select()
+			.from(DB.schema.transactions)
+			.where(Transaction.Filter.where(options?.filter))
+			.catch(e => {
+				throw Error("Failure during list", { cause: e.cause })
+			})
+		return rows.map(Transaction.toCore)
+	}
+
 	async upsertMany(accountId: number, batchId: number, transactions: core.Transaction.Create[], options: { tx: DB }) {
 		return await options.tx
 			.insert(DB.schema.transactions)
 			.values(transactions.map(t => Transaction.fromCore(accountId, batchId, t)))
 			.returning()
-			.then(r => r.map(Transaction.toCore))
+			.then(rows => rows.map(Transaction.toCore))
 			.catch(e => {
 				throw Error("Failure during repository.Transaction.upsertMany", { cause: e.cause })
 			})
@@ -53,6 +65,39 @@ export namespace Transaction {
 			reference: row.reference ?? undefined,
 			date: row.date,
 			raw: row.raw_payload,
+		}
+	}
+	export interface Filter {
+		accountId?: number
+		batchId?: number
+		date?: { after?: Date; before?: Date }
+		amount?: { min?: number; max?: number }
+	}
+	export namespace Filter {
+		export function where(filter?: Filter) {
+			if (!filter) {
+				return undefined
+			}
+			const predicates: (drizzle.SQL | undefined)[] = []
+			if (typeof filter.accountId == "number") {
+				predicates.push(drizzle.eq(DB.schema.transactions.account_id, filter?.accountId))
+			}
+			if (typeof filter.batchId == "number") {
+				predicates.push(drizzle.eq(DB.schema.transactions.batch_id, filter?.batchId))
+			}
+			if (filter.date?.after) {
+				predicates.push(drizzle.gte(DB.schema.transactions.date, filter.date.after))
+			}
+			if (filter.date?.before) {
+				predicates.push(drizzle.lte(DB.schema.transactions.date, filter.date.before))
+			}
+			if (typeof filter.amount?.min == "number") {
+				predicates.push(drizzle.gte(DB.schema.transactions.amount, filter.amount.min.toFixed(2)))
+			}
+			if (typeof filter.amount?.max == "number") {
+				predicates.push(drizzle.lte(DB.schema.transactions.amount, filter.amount.max.toFixed(2)))
+			}
+			return predicates.length == 0 ? undefined : drizzle.and(...predicates)
 		}
 	}
 }

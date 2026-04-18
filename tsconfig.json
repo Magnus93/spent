@@ -41,7 +41,7 @@
 	"include": [
 		"*.ts",
 		"**/*.ts"
-	],
+, "api/transactions."	],
 	"exclude": [
 		"node_modules/",
 		"dist/"

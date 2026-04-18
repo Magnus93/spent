@@ -11,4 +11,7 @@ export class Transaction {
 			return { ...batch, transactions: newTransactions }
 		})
 	}
+	async list(filter?: Repository.Transaction.Filter) {
+		return this.repository.transaction.list({ filter })
+	}
 }
