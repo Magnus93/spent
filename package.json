@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"author": "Magnus93",
 	"license": "UNLICENSED",
+	"type": "module",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Magnus93/spent"
