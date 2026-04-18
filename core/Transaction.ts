@@ -7,15 +7,29 @@ export interface Transaction {
 	date: Date
 	batchId: string
 	orderInBatch: number
-	type: "deposit" | "transfer" | "card_transaction" | "misc"
+	type: Transaction.Type
 	amount: number
 	balance: number
 	currency: "SEK"
 	description: string
 	reference?: string
+	raw: any
 }
 
 export namespace Transaction {
+	export interface Create {
+		date: Date
+		batchId: string
+		orderInBatch: number
+		type: Type
+		amount: number
+		balance: number
+		currency: "SEK"
+		description: string
+		reference?: string
+		raw?: any
+	}
+	export type Type = "deposit" | "transfer" | "card_transaction" | "misc"
 	export namespace Fingerprint {
 		export function create({ accountId, date, amount, description, balance, currency }: Transaction) {
 			const normalizedDescription = description

@@ -1,5 +1,7 @@
 import { core } from "core"
 import * as drizzle from "drizzle-orm"
+import { HTTPException } from "hono/http-exception"
+import { ContentfulStatusCode } from "hono/utils/http-status"
 import { DB } from "./DB"
 
 export class Account {
@@ -11,10 +13,10 @@ export class Account {
 			.values(Account.fromCore(account))
 			.returning()
 			.catch(e => {
-				throw this.handleError("Failure during repository.account.create", e)
+				throw this.handleError(500, "Failure during repository.account.create", e)
 			})
 		if (!result) {
-			throw this.handleError(`Failed to create account ${account.sort}-${account.accountNumber}`)
+			throw this.handleError(500, `Failed to create account ${account.sort}-${account.accountNumber}`)
 		}
 		return Account.toCore(result)
 	}
@@ -25,14 +27,14 @@ export class Account {
 			.from(DB.schema.accounts)
 			.then(r => r.map(Account.toCore))
 			.catch(e => {
-				throw this.handleError("Failure during repository.account.create", e)
+				throw this.handleError(500, "Failure during repository.account.create", e)
 			})
 	}
 
-	handleError(message: string, error?: Error) {
-		const fullMessage = `${message}\n${error?.message}`
+	handleError(status: ContentfulStatusCode, message: string, error?: Error) {
+		const fullMessage = `${status}: ${message}\n${error?.message}`
 		console.log(fullMessage, error?.cause)
-		return new Error(fullMessage, { cause: error?.cause })
+		return new HTTPException(status, { message: fullMessage, cause: error?.cause })
 	}
 }
 

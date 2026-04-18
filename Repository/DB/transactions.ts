@@ -6,12 +6,12 @@ export const transactions = pgTable(
 	"transactions",
 	{
 		id: bigserial("id", { mode: "number" }).primaryKey(),
-		account_id: bigint("account_id", { mode: "bigint" })
+		account_id: bigint("account_id", { mode: "number" })
 			.notNull()
 			.references(() => accounts.id),
 		fingerprint: text("fingerprint").notNull(),
 		type: text("type"),
-		batch_id: bigint("batch_id", { mode: "bigint" })
+		batch_id: bigint("batch_id", { mode: "number" })
 			.notNull()
 			.references(() => batches.id),
 		order_in_batch: integer("order_in_batch").notNull(),
