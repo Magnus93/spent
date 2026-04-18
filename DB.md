@@ -1,6 +1,6 @@
 # DB tables
 
-## imports
+## batches
 - id
 - imported_at
 
@@ -16,8 +16,8 @@
 - account_id - fk
 - fingerprint - unique hash(account_id + date + amount + normalized_description + balance)
 - date
-- import_id - fk
-- import_order - int
+- batch_id - fk
+- order_in_batch - int
 - type: "deposit" | "transfer" or "outbound?" | "card_transaction" | "misc" (nullable)
 - amount
 - balance

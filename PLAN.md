@@ -28,18 +28,18 @@
 
 ## Phase 1 - Other tables
 - Create tables
-  - imports
+  - batches
   - transactions
 
-## Phase 2 - imports
-- POST /imports
+## Phase 2 - batches
+- POST /batches
   - Only post with JSON
-  - Create in imports-table
+  - Create in batches-table
   - Upsert in transactions-table
 
-- POST /imports/ica
+- POST /batches/ica
   - ica-CSV -> core-type
-- POST /imports/swedbank
+- POST /batches/swedbank
 
 ## Phase 3 - list/search transactions
 - GET /transactions
@@ -107,7 +107,7 @@ Create session for every jwt issued
 
 ### 6.3 test
 - create account
-- import txs
+- create batch txs
 - list transactions
 
 

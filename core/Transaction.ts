@@ -5,8 +5,8 @@ export interface Transaction {
 	accountId: string
 	// fingerprint: string
 	date: Date
-	importId: string
-	importOrder: number
+	batchId: string
+	orderInBatch: number
 	type: "deposit" | "transfer" | "card_transaction" | "misc"
 	amount: number
 	balance: number

@@ -1,5 +1,5 @@
 {
-  "id": "6494deac-3fe4-4575-94a0-d6cce2084f90",
+  "id": "b2d0344f-e391-4e4d-a1af-0933851f917b",
   "prevId": "9ec83c72-1a47-41a0-9041-a141fdf806ea",
   "version": "7",
   "dialect": "postgresql",
@@ -47,8 +47,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.imports": {
-      "name": "imports",
+    "public.batches": {
+      "name": "batches",
       "schema": "",
       "columns": {
         "id": {
@@ -100,14 +100,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "import_id": {
-          "name": "import_id",
+        "batch_id": {
+          "name": "batch_id",
           "type": "bigint",
           "primaryKey": false,
           "notNull": true
         },
-        "import_order": {
-          "name": "import_order",
+        "order_in_batch": {
+          "name": "order_in_batch",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -192,12 +192,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "transactions_import_id_imports_id_fk": {
-          "name": "transactions_import_id_imports_id_fk",
+        "transactions_batch_id_batches_id_fk": {
+          "name": "transactions_batch_id_batches_id_fk",
           "tableFrom": "transactions",
-          "tableTo": "imports",
+          "tableTo": "batches",
           "columnsFrom": [
-            "import_id"
+            "batch_id"
           ],
           "columnsTo": [
             "id"
