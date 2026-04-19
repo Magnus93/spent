@@ -20,7 +20,7 @@ export class Icabanken {
 									? "misc"
 									: undefined,
 				amount: row => this.toAmount(row.Belopp),
-				balance: row => (typeof row.Saldo == "string" ? this.toAmount(row.Saldo) : undefined),
+				balance: row => (row.Saldo == "" ? this.toAmount(row.Saldo) : undefined),
 				description: row => row.Text,
 				currency: () => "SEK",
 				orderInBatch: (row, rowIndex, rows) => {

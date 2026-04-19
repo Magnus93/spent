@@ -12,7 +12,7 @@ describe("Icabanken", () => {
 			{
 				accountId: 1,
 				batchId: 2,
-				amount: -40.0,
+				amount: -40,
 				balance: undefined,
 				orderInBatch: 2,
 				date: new Date("2026-04-12"),
@@ -24,6 +24,7 @@ describe("Icabanken", () => {
 					Text: "Galaxy Tobak           Uppsala        Se",
 					Typ: "Reserverat belopp",
 					Belopp: "-40,00 kr",
+					Saldo: "",
 				},
 			},
 			{

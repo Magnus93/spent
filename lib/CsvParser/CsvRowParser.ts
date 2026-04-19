@@ -28,6 +28,7 @@ export class CsvRowParser {
 				currentCell = currentCell + this.cursor.char
 			}
 		}
+		cells.push("")
 		return cells
 	}
 
