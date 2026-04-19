@@ -43,5 +43,10 @@
 		"eslint.autoFixOnSave": "explicit"
 	},
 	"js/ts.format.enabled": false,
-	"js/ts.tsdk.path": "node_modules/typescript/lib"
+	"js/ts.tsdk.path": "node_modules/typescript/lib",
+	"cSpell.words": [
+		"belopp",
+		"beskrivning",
+		"saldo"
+	]
 }
