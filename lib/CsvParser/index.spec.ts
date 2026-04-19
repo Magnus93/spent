@@ -7,7 +7,8 @@ interface TX {
 	description: string
 	orderInBatch: number
 }
-const csv = `datum;belopp;saldo;beskrivning
+const csv = `* Transaktioner Period 2025-01-012025-12-31 Skapad 2026-04-01 22:30 CEST
+datum;belopp;saldo;beskrivning
 2025-06-01;-120;2730;soppa and bröd
 2025-05-01;2000;2850;insättning
 2025-04-01;-50;850;mer glass
@@ -22,16 +23,19 @@ const transactions = [
 ]
 
 describe("CSV", () => {
-	const parser = new CsvParser<"datum" | "belopp" | "saldo" | "beskrivning", TX>(";", {
-		date: row => row.datum,
-		amount: row => Number(row.belopp),
-		balance: row => Number(row.saldo),
-		description: row => row.beskrivning,
-		orderInBatch: (_, rowIndex, rows) => {
-			const order = rows.at(0)!.datum < rows.at(-1)!.datum ? "asc" : "desc"
-			return order == "asc" ? rowIndex : rows.length - rowIndex - 1
-		},
-	})
+	const parser = new CsvParser<"datum" | "belopp" | "saldo" | "beskrivning", TX>(
+		{ separator: ";", headerColumnIndex: 1 },
+		{
+			date: row => row.datum,
+			amount: row => Number(row.belopp),
+			balance: row => Number(row.saldo),
+			description: row => row.beskrivning,
+			orderInBatch: (_, rowIndex, rows) => {
+				const order = rows.at(0)!.datum < rows.at(-1)!.datum ? "asc" : "desc"
+				return order == "asc" ? rowIndex : rows.length - rowIndex - 1
+			},
+		}
+	)
 	it("parse", () => {
 		expect(parser.parse(csv)).toEqual(transactions)
 	})

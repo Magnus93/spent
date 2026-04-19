@@ -9,11 +9,15 @@ type CsvMapper<H extends string, T> = {
 }
 
 export class CsvParser<H extends string, T> {
+	private readonly separator: string
+	private readonly headerColumnIndex: number
 	constructor(
-		private readonly separator: string,
-		private readonly mapper: CsvMapper<H, T>,
-		private readonly headerColumnIndex = 0
-	) {}
+		options: { separator: string; headerColumnIndex?: number },
+		private readonly mapper: CsvMapper<H, T>
+	) {
+		this.separator = options.separator
+		this.headerColumnIndex = options.headerColumnIndex ?? 0
+	}
 
 	parse(input: string): T[] {
 		const lines = input.split("\n")
