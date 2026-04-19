@@ -19,7 +19,7 @@ const transactions = [
 	{ date: "2025-06-01", amount: -120, balance: 2730, reference: "lunch", description: "sop m. bröd", orderInBatch: 4 },
 	{ date: "2025-05-01", amount: 2000, balance: 2850, reference: "en slant", description: "insätt.", orderInBatch: 3 },
 	{ date: "2025-04-01", amount: -50, balance: 850, reference: "mer glass", description: "mer glass", orderInBatch: 2 },
-	{ date: "2025-04-01", amount: -80, balance: 900, reference: "glass", description: "a, b, c", orderInBatch: 1 }, // TODO: separator within cell work
+	{ date: "2025-04-01", amount: -80, balance: 900, reference: "glass", description: "a; b; c", orderInBatch: 1 },
 	{ date: "2025-03-01", amount: -20, balance: 980, reference: "en soda", description: "coca-cola", orderInBatch: 0 },
 ]
 

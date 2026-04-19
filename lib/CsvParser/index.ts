@@ -1,3 +1,5 @@
+import { CsvRowParser } from "./CsvRowParser"
+
 type Map<H extends string, T, K extends keyof T> = (
 	row: Record<H, string>,
 	rowIndex: number,
@@ -11,12 +13,14 @@ type CsvMapper<H extends string, T> = {
 export class CsvParser<H extends string, T> {
 	private readonly separator: string
 	private readonly headerColumnIndex: number
+	private rowParser: CsvRowParser
 	constructor(
 		options: { separator: string; headerColumnIndex?: number },
 		private readonly mapper: CsvMapper<H, T>
 	) {
 		this.separator = options.separator
 		this.headerColumnIndex = options.headerColumnIndex ?? 0
+		this.rowParser = new CsvRowParser({ separator: this.separator })
 	}
 
 	parse(input: string): T[] {
@@ -25,26 +29,17 @@ export class CsvParser<H extends string, T> {
 		const rowStrings = lines.slice(this.headerColumnIndex + 1)
 		const r = rowStrings.map(
 			(rowString): Record<H, string> =>
-				Object.fromEntries(
-					rowString.split(this.separator).map((cell, columnIndex) => [headers[columnIndex], this.normalizeCell(cell)])
-				)
+				Object.fromEntries(this.rowParser.parse(rowString).map((cell, columnIndex) => [headers[columnIndex], cell]))
 		)
-		return r.map((r, index, all) => this.parseRow(r, index, all))
+		return r.map((r, index, all) => this.mapRow(r, index, all))
 	}
-	private parseRow(row: Record<H, string>, rowIndex: number, allRows: Record<H, string>[]): T {
+
+	private mapRow(row: Record<H, string>, rowIndex: number, allRows: Record<H, string>[]): T {
 		const result = {} as T
 		for (const key in this.mapper) {
 			const map = this.mapper[key]
 			result[key] = map(row, rowIndex, allRows)
 		}
 		return result
-	}
-	private normalizeCell(cell: string) {
-		const trimmedCell = cell.trim()
-		try {
-			return JSON.parse(trimmedCell) // `"soda"` with quotes
-		} catch {
-			return trimmedCell // `soda`
-		}
 	}
 }
