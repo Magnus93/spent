@@ -17,10 +17,10 @@ export class Transaction {
 		return rows.map(Transaction.toCore)
 	}
 
-	async upsertMany(accountId: number, batchId: number, transactions: core.Transaction.Create[], options: { tx: DB }) {
+	async upsertMany(accountId: number, transactions: core.Transaction.Create[], options: { tx: DB }) {
 		return await options.tx
 			.insert(DB.schema.transactions)
-			.values(transactions.map(t => Transaction.fromCore(accountId, batchId, t)))
+			.values(transactions.map(t => Transaction.fromCore(accountId, t)))
 			.returning()
 			.then(rows => rows.map(Transaction.toCore))
 			.catch(e => {
@@ -32,12 +32,11 @@ export class Transaction {
 export namespace Transaction {
 	export function fromCore(
 		accountId: number,
-		batchId: number,
 		transaction: core.Transaction.Create
 	): drizzle.InferInsertModel<typeof DB.schema.transactions> {
 		return {
 			account_id: accountId,
-			batch_id: batchId,
+			batch_id: transaction.batchId,
 			type: transaction.type,
 			fingerprint: core.Transaction.Fingerprint.create(accountId, transaction),
 			order_in_batch: transaction.orderInBatch,

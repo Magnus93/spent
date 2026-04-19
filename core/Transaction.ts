@@ -7,7 +7,7 @@ export interface Transaction {
 	date: Date
 	batchId: number
 	orderInBatch: number
-	type: Transaction.Type
+	type?: Transaction.Type
 	amount: number
 	balance: number
 	currency: "SEK"
@@ -18,10 +18,11 @@ export interface Transaction {
 
 export namespace Transaction {
 	export interface Create {
+		accountId: number
 		date: Date
 		batchId: number
 		orderInBatch: number
-		type: Type
+		type?: Type
 		amount: number
 		balance: number
 		currency: "SEK"
