@@ -40,10 +40,11 @@ export class CsvParser<H extends string, T> {
 		return result
 	}
 	private normalizeCell(cell: string) {
+		const trimmedCell = cell.trim()
 		try {
-			return JSON.parse(cell)
+			return JSON.parse(trimmedCell) // `"soda"` with quotes
 		} catch {
-			return cell
+			return trimmedCell // `soda`
 		}
 	}
 }
