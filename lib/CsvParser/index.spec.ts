@@ -18,13 +18,10 @@ interface TX {
 describe("CSV", () => {
 	const parser = new CsvParser<"datum" | "belopp" | "saldo" | "beskrivning", TX>(";", {
 		date: row => row.datum,
-		amount: (row, index) => {
-			console.log(row, index)
-			return Number(row.belopp)
-		},
+		amount: row => Number(row.belopp),
 		balance: row => Number(row.saldo),
 		description: row => row.beskrivning,
-		importOrder: (_, rowIndex) => rowIndex, // TODO add allRows (we need to know the length of the list)
+		importOrder: (_, rowIndex, rows) => rows.length - rowIndex - 1,
 	})
 	it("parse", () => {
 		expect(parser.parse(csv)).toEqual([
