@@ -1,5 +1,5 @@
 import { core } from "core"
-import { CsvParser } from "lib"
+import { CsvParser } from "../../lib"
 
 export class Icabanken {
 	static parseCsv(accountId: number, batchId: number, csv: string): core.Transaction.Create[] {
@@ -20,10 +20,11 @@ export class Icabanken {
 									? "misc"
 									: undefined,
 				amount: row => this.toAmount(row.Belopp),
-				balance: row => this.toAmount(row.Saldo),
+				balance: row => (typeof row.Saldo == "string" ? this.toAmount(row.Saldo) : undefined),
 				description: row => row.Text,
 				currency: () => "SEK",
-				orderInBatch: (_, rowIndex, rows) => {
+				orderInBatch: (row, rowIndex, rows) => {
+					console.log("csv keys", Object.keys(row))
 					const order = rows.at(0)!.Datum < rows.at(-1)!.Datum ? "asc" : "desc"
 					return order == "asc" ? rowIndex : rows.length - rowIndex - 1
 				},

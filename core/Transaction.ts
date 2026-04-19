@@ -24,7 +24,7 @@ export namespace Transaction {
 		orderInBatch: number
 		type?: Type
 		amount: number
-		balance: number
+		balance?: number
 		currency: "SEK"
 		description: string
 		reference?: string
@@ -38,7 +38,7 @@ export namespace Transaction {
 				.trim()
 				.replace(/( |\t)/g, "")
 			const normalizedAmount = amount.toFixed(2)
-			const normalizedBalance = balance.toFixed(2)
+			const normalizedBalance = balance?.toFixed(2)
 			return createHash("sha256")
 				.update(`${accountId}|${date}|${normalizedAmount}|${currency}|${normalizedDescription}|${normalizedBalance}`)
 				.digest("hex")

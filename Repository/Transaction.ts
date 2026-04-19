@@ -1,5 +1,7 @@
 import { core } from "core"
 import * as drizzle from "drizzle-orm"
+import { HTTPException } from "hono/http-exception"
+import { ContentfulStatusCode } from "hono/utils/http-status"
 import { DB } from "./DB"
 
 export class Transaction {
@@ -12,7 +14,7 @@ export class Transaction {
 			.from(DB.schema.transactions)
 			.where(Transaction.Filter.where(options?.filter))
 			.catch(e => {
-				throw Error("Failure during list", { cause: e.cause })
+				throw this.handleError(500, "Failure during list", e)
 			})
 		return rows.map(Transaction.toCore)
 	}
@@ -24,8 +26,13 @@ export class Transaction {
 			.returning()
 			.then(rows => rows.map(Transaction.toCore))
 			.catch(e => {
-				throw Error("Failure during repository.Transaction.upsertMany", { cause: e.cause })
+				throw this.handleError(500, "Failure during repository.Transaction.upsertMany", e)
 			})
+	}
+	handleError(status: ContentfulStatusCode, message: string, error?: Error) {
+		const fullMessage = `${status}: ${message}\n${error?.message}`
+		console.log(fullMessage, error?.cause)
+		return new HTTPException(status, { message: fullMessage, cause: error?.cause })
 	}
 }
 
@@ -41,7 +48,7 @@ export namespace Transaction {
 			fingerprint: core.Transaction.Fingerprint.create(accountId, transaction),
 			order_in_batch: transaction.orderInBatch,
 			amount: transaction.amount.toFixed(2),
-			balance: transaction.balance.toFixed(2),
+			balance: transaction.balance?.toFixed(2),
 			currency: transaction.currency,
 			description: transaction.description,
 			reference: transaction.reference,

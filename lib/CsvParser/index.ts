@@ -26,6 +26,7 @@ export class CsvParser<H extends string, T> {
 	parse(input: string): T[] {
 		const lines = input.split("\n")
 		const headers = lines[this.headerColumnIndex]!.split(this.separator) as H[]
+		console.log("headers", headers)
 		const rowStrings = lines.slice(this.headerColumnIndex + 1)
 		const r = rowStrings.map(
 			(rowString): Record<H, string> =>
