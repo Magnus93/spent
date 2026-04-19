@@ -8,12 +8,12 @@ interface TX {
 	orderInBatch: number
 }
 const csv = `* Transaktioner Period 2025-01-012025-12-31 Skapad 2026-04-01 22:30 CEST
-datum;belopp;saldo;beskrivning
-2025-06-01;-120;2730;soppa and bröd
-2025-05-01;2000;2850;insättning
-2025-04-01;-50;850;mer glass
-2025-04-01;-80;900;glass
-2025-03-01;-20;980;coca-cola`
+datum;belopp;saldo;beskrivning;
+2025-06-01;-120;2730;"soppa and bröd"
+2025-05-01;2000;2850;"insättning"
+2025-04-01;-50;850;"mer glass"
+2025-04-01;-80;900;"glass"
+2025-03-01;-20;980;"coca-cola"`
 const transactions = [
 	{ date: "2025-06-01", amount: -120, balance: 2730, description: "soppa and bröd", orderInBatch: 4 },
 	{ date: "2025-05-01", amount: 2000, balance: 2850, description: "insättning", orderInBatch: 3 },

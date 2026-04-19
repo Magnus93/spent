@@ -25,7 +25,9 @@ export class CsvParser<H extends string, T> {
 		const rowStrings = lines.slice(this.headerColumnIndex + 1)
 		const r = rowStrings.map(
 			(rowString): Record<H, string> =>
-				Object.fromEntries(rowString.split(this.separator).map((cell, columnIndex) => [headers[columnIndex], cell]))
+				Object.fromEntries(
+					rowString.split(this.separator).map((cell, columnIndex) => [headers[columnIndex], this.normalizeCell(cell)])
+				)
 		)
 		return r.map((r, index, all) => this.parseRow(r, index, all))
 	}
@@ -36,5 +38,12 @@ export class CsvParser<H extends string, T> {
 			result[key] = map(row, rowIndex, allRows)
 		}
 		return result
+	}
+	private normalizeCell(cell: string) {
+		try {
+			return JSON.parse(cell)
+		} catch {
+			return cell
+		}
 	}
 }
