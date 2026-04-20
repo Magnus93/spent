@@ -12,12 +12,12 @@ describe("Icabanken", () => {
 			{
 				accountId: 1,
 				batchId: 2,
-				amount: -40,
-				balance: undefined,
-				orderInBatch: 2,
 				date: new Date("2026-04-12"),
 				description: "Galaxy Tobak           Uppsala        Se",
 				type: undefined,
+				amount: -40,
+				balance: undefined,
+				orderInBatch: 2,
 				currency: "SEK",
 				raw: {
 					Datum: "2026-04-12",
@@ -32,10 +32,10 @@ describe("Icabanken", () => {
 				batchId: 2,
 				date: new Date("2026-04-11"),
 				description: "Chopchop Boland",
-				orderInBatch: 1,
 				type: "card_transaction",
 				amount: -343.0,
 				balance: 187.94,
+				orderInBatch: 1,
 				currency: "SEK",
 				raw: {
 					Datum: "2026-04-11",

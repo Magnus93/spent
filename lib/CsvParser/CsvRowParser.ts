@@ -15,31 +15,20 @@ export class CsvRowParser {
 	parse(rowString: string): string[] {
 		this.rowString = rowString
 		const cells: string[] = []
-		let currentCell: string = ""
+		let currentCell = ""
+		let inQuotes = false
+
 		while ((this.cursor = this.next())) {
-			if (this.cursor.char == this.separator) {
-				cells.push(currentCell.trim())
-				currentCell = ""
-			} else if (this.cursor.char == `"`) {
-				currentCell = this.readUntil(`"`)
+			if (this.cursor.char == `"`) {
+				inQuotes = !inQuotes
+			} else if (this.cursor.char == this.separator && !inQuotes) {
 				cells.push(currentCell.trim())
 				currentCell = ""
 			} else {
-				currentCell = currentCell + this.cursor.char
+				currentCell += this.cursor.char
 			}
 		}
-		cells.push("")
+		cells.push(currentCell)
 		return cells
-	}
-
-	readUntil(stopAt: string): string {
-		let result = ""
-		while ((this.cursor = this.next())) {
-			if (this.cursor.char == stopAt) {
-				break
-			}
-			result = result + this.cursor.char
-		}
-		return result
 	}
 }

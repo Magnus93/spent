@@ -20,11 +20,10 @@ export class Icabanken {
 									? "misc"
 									: undefined,
 				amount: row => this.toAmount(row.Belopp),
-				balance: row => (row.Saldo == "" ? this.toAmount(row.Saldo) : undefined),
+				balance: row => (row.Saldo == "" ? undefined : this.toAmount(row.Saldo)),
 				description: row => row.Text,
 				currency: () => "SEK",
 				orderInBatch: (row, rowIndex, rows) => {
-					console.log("csv keys", Object.keys(row))
 					const order = rows.at(0)!.Datum < rows.at(-1)!.Datum ? "asc" : "desc"
 					return order == "asc" ? rowIndex : rows.length - rowIndex - 1
 				},
