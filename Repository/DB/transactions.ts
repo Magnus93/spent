@@ -9,11 +9,10 @@ export const transactions = pgTable(
 		account_id: bigint("account_id", { mode: "number" })
 			.notNull()
 			.references(() => accounts.id),
-		fingerprint: text("fingerprint").notNull(),
-		type: text("type"),
 		batch_id: bigint("batch_id", { mode: "number" })
 			.notNull()
 			.references(() => batches.id),
+		type: text("type"),
 		order_in_batch: integer("order_in_batch").notNull(),
 		amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
 		balance: numeric("balance", { precision: 12, scale: 2 }),
@@ -21,6 +20,7 @@ export const transactions = pgTable(
 		description: text("description").notNull(),
 		reference: text("reference"),
 		date: date("date", { mode: "date" }).notNull(),
+		fingerprint: text("fingerprint").notNull(),
 		raw_payload: jsonb("raw_payload").notNull(),
 	},
 	table => ({
