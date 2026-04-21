@@ -16,6 +16,7 @@ export namespace Bank {
 				break
 			case "swedbank":
 				result = Swedbank.parseCsv(accountId, batchId, csv)
+				console.log("swedank txs", result)
 				break
 			default:
 				throw new HTTPException(404, { message: `No bank support for "${bank}"` })

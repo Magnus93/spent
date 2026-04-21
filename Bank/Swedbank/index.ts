@@ -1,5 +1,5 @@
 import { core } from "core"
-import { CsvParser } from "lib"
+import { CsvParser } from "../../lib"
 
 export class Swedbank {
 	static parseCsv(accountId: number, batchId: number, csv: string): core.Transaction.Create[] {
@@ -18,7 +18,7 @@ export class Swedbank {
 			| "Bokfört saldo",
 			core.Transaction.Create
 		>(
-			{ separator: ";", headerColumnIndex: 1 },
+			{ separator: ",", headerColumnIndex: 1 },
 			{
 				accountId: () => accountId,
 				batchId: () => batchId,
