@@ -9,6 +9,7 @@ app.get("/transactions", async context => {
 	const minAmount = context.req.query("minAmount") ? Number(context.req.query("minAmount")) : undefined
 	const maxAmount = context.req.query("maxAmount") ? Number(context.req.query("maxAmount")) : undefined
 	const limit = context.req.query("limit") ? Number(context.req.query("limit")) : undefined
+	const continuation = context.req.query("continuation")
 
 	return context.json(
 		await service.transaction.list(
@@ -18,7 +19,8 @@ app.get("/transactions", async context => {
 				date: { after: dateAfter, before: dateBefore },
 				amount: { min: minAmount, max: maxAmount },
 			},
-			limit
+			limit,
+			continuation
 		)
 	)
 })

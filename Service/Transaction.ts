@@ -12,7 +12,7 @@ export class Transaction {
 			return { ...batch, transactions: newTransactions }
 		})
 	}
-	async list(filter?: Repository.Transaction.Filter, limit?: number): Promise<core.Transaction[]> {
-		return this.repository.transaction.list({ filter, limit })
+	async list(filter?: Repository.Transaction.Filter, limit?: number, continuation?: string) {
+		return this.repository.transaction.list({ filter, limit, continuation })
 	}
 }

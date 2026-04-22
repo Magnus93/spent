@@ -1,4 +1,5 @@
 import { core } from "core"
+import generateCursor, { CursorConfig } from "drizzle-cursor"
 import * as drizzle from "drizzle-orm"
 import { HTTPException } from "hono/http-exception"
 import { ContentfulStatusCode } from "hono/utils/http-status"
@@ -7,18 +8,33 @@ import { DB } from "./DB"
 export class Transaction {
 	constructor(private readonly db: DB) {}
 
-	async list(options?: { tx?: DB; filter?: Transaction.Filter; limit?: number }): Promise<core.Transaction[]> {
+	async list(options?: {
+		tx?: DB
+		filter?: Transaction.Filter
+		limit?: number
+		continuation?: string
+	}): Promise<{ result: core.Transaction[]; continuationToken?: string }> {
+		const cursorConfig: CursorConfig = {
+			cursors: [
+				{ order: "DESC", key: "date", schema: DB.schema.transactions.date },
+				{ order: "DESC", key: "order_in_batch", schema: DB.schema.transactions.order_in_batch },
+			],
+			primaryCursor: { order: "DESC", key: "id", schema: DB.schema.transactions.id },
+		}
+		const cursor = generateCursor(cursorConfig)
+		const continueAt = options?.continuation ? cursor.parse(options.continuation) : undefined
 		const db = options?.tx ?? this.db
 		const rows = await db
 			.select()
 			.from(DB.schema.transactions)
-			.where(Transaction.Filter.where(options?.filter))
-			.orderBy(drizzle.desc(DB.schema.transactions.date), drizzle.desc(DB.schema.transactions.order_in_batch))
+			.where(drizzle.and(cursor.where(continueAt), Transaction.Filter.where(options?.filter)))
+			.orderBy(...cursor.orderBy)
 			.limit(options?.limit ?? 100)
 			.catch(e => {
 				throw this.handleError(500, "Failure during list", e)
 			})
-		return rows.map(Transaction.toCore)
+		const continuationToken = cursor.serialize(rows.at(-1)) ?? undefined
+		return { continuationToken, result: rows.map(Transaction.toCore) }
 	}
 
 	async upsertMany(accountId: number, transactions: core.Transaction.Create[], options: { tx: DB }) {

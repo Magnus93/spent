@@ -46,6 +46,7 @@
 	},
 	"dependencies": {
 		"@types/node": "25.6.0",
+		"drizzle-cursor": "^0.5.3",
 		"drizzle-orm": "0.45.2",
 		"hono": "4.12.12",
 		"postgres": "3.4.9"
