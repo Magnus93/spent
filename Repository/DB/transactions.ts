@@ -15,7 +15,7 @@ export const transactions = pgTable(
 		type: text("type"),
 		order_in_batch: integer("order_in_batch").notNull(),
 		amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
-		balance: numeric("balance", { precision: 12, scale: 2 }),
+		balance: numeric("balance", { precision: 12, scale: 2 }).notNull(),
 		currency: text("currency").notNull(),
 		description: text("description").notNull(),
 		reference: text("reference"),
