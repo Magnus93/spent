@@ -7,12 +7,14 @@ import { DB } from "./DB"
 export class Transaction {
 	constructor(private readonly db: DB) {}
 
-	async list(options?: { tx?: DB; filter?: Transaction.Filter }): Promise<core.Transaction[]> {
+	async list(options?: { tx?: DB; filter?: Transaction.Filter; limit?: number }): Promise<core.Transaction[]> {
 		const db = options?.tx ?? this.db
 		const rows = await db
 			.select()
 			.from(DB.schema.transactions)
 			.where(Transaction.Filter.where(options?.filter))
+			.orderBy(drizzle.desc(DB.schema.transactions.date), drizzle.desc(DB.schema.transactions.order_in_batch))
+			.limit(options?.limit ?? 100)
 			.catch(e => {
 				throw this.handleError(500, "Failure during list", e)
 			})
@@ -74,9 +76,9 @@ export namespace Transaction {
 		}
 	}
 	export interface Filter {
-		accountId?: number
-		batchId?: number
-		date?: { after?: Date; before?: Date }
+		accountId?: number[]
+		batchId?: number[]
+		date?: { after?: string; before?: string }
 		amount?: { min?: number; max?: number }
 	}
 	export namespace Filter {
@@ -84,18 +86,18 @@ export namespace Transaction {
 			if (!filter) {
 				return undefined
 			}
-			const predicates: (drizzle.SQL | undefined)[] = []
-			if (typeof filter.accountId == "number") {
-				predicates.push(drizzle.eq(DB.schema.transactions.account_id, filter?.accountId))
+			const predicates: drizzle.SQL[] = []
+			if (filter.accountId) {
+				predicates.push(drizzle.inArray(DB.schema.transactions.account_id, filter.accountId))
 			}
-			if (typeof filter.batchId == "number") {
-				predicates.push(drizzle.eq(DB.schema.transactions.batch_id, filter?.batchId))
+			if (filter.batchId) {
+				predicates.push(drizzle.inArray(DB.schema.transactions.batch_id, filter.batchId))
 			}
 			if (filter.date?.after) {
-				predicates.push(drizzle.gte(DB.schema.transactions.date, filter.date.after))
+				predicates.push(drizzle.gte(DB.schema.transactions.date, new Date(filter.date.after)))
 			}
 			if (filter.date?.before) {
-				predicates.push(drizzle.lte(DB.schema.transactions.date, filter.date.before))
+				predicates.push(drizzle.lte(DB.schema.transactions.date, new Date(filter.date.before)))
 			}
 			if (typeof filter.amount?.min == "number") {
 				predicates.push(drizzle.gte(DB.schema.transactions.amount, filter.amount.min.toFixed(2)))
