@@ -48,7 +48,7 @@ export namespace Transaction {
 			fingerprint: core.Transaction.Fingerprint.create(accountId, transaction),
 			order_in_batch: transaction.orderInBatch,
 			amount: transaction.amount.toFixed(2),
-			balance: transaction.balance?.toFixed(2),
+			balance: transaction.balance.toFixed(2),
 			currency: transaction.currency,
 			description: transaction.description,
 			reference: transaction.reference,

@@ -24,7 +24,7 @@ export namespace Transaction {
 		orderInBatch: number
 		type?: Type
 		amount: number
-		balance?: number
+		balance: number
 		currency: "SEK"
 		description: string
 		reference?: string
