@@ -41,6 +41,17 @@ export class Transaction {
 		return await options.tx
 			.insert(DB.schema.transactions)
 			.values(transactions.map(t => Transaction.fromCore(accountId, t)))
+			.onConflictDoUpdate({
+				target: DB.schema.transactions.fingerprint,
+				set: {
+					batch_id: drizzle.sql`excluded.batch_id`,
+					order_in_batch: drizzle.sql`excluded.order_in_batch`,
+					amount: drizzle.sql`excluded.amount`,
+					balance: drizzle.sql`excluded.balance`,
+					description: drizzle.sql`excluded.description`,
+					reference: drizzle.sql`excluded.reference`,
+				},
+			})
 			.returning()
 			.then(rows => rows.map(Transaction.toCore))
 			.catch(e => {
